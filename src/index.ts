@@ -12,8 +12,8 @@
 //     console.log('server on http://localhost:3001');
 // })
 
-const app = require('./server')
+import app from './server';
 
-app.listen(3001, (req, res) => {
+app.listen(3001, () => {
     console.log('listen on http://localhost:3001');
 })
