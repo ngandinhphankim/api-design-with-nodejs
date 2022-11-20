@@ -1,23 +1,23 @@
 import jwt from "jsonwebtoken"
 import * as bcrypt from "bcrypt"
 
-export const createJwt = ({id, username}) => {
-    const token = jwt.sign({id, username}, process.env.JWT_SECRET)
+export const createJwt = ({ id, username }) => {
+    const token = jwt.sign({ id, username }, process.env.JWT_SECRET)
     return token;
 }
 
 export const protect = (req, res, next) => {
     const bearer = req.headers.authorization;
-    if(!bearer) {
+    if (!bearer) {
         res.status(401)
-        res.send("Unauthorized")
+        res.send("unauthorized")
         return;
     }
-    const [, token] = bearer;
+    const [, token] = bearer.split(" ");
     if (!token) {
         console.log('here');
         res.status(401)
-        res.send("Unauthorized")
+        res.send("not valid token")
         return;
     }
     try {
@@ -28,7 +28,7 @@ export const protect = (req, res, next) => {
     } catch (e) {
         console.log(e);
         res.status(401)
-        res.send("Unauthorized")
+        res.send("error verify token")
         return;
     }
 }
