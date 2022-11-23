@@ -1,4 +1,6 @@
 import { Router } from "express"
+import { body } from "express-validator"
+import { handlerInputErrors } from "./modules/middleware"
 
 const router = Router()
 
@@ -10,8 +12,15 @@ router.get("/product", (req, res) => {
 })
 
 router.get("/product/:id", (req, res) => { })
-router.post("/product", (req, res) => { })
-router.put("/product/:id", (req, res) => { })
+
+router.post("/product", body('name').exists().isString(), handlerInputErrors, (req, res) => {
+
+})
+
+router.put("/product/:id", body('name').isString(), handlerInputErrors, (req, res) => {
+
+})
+
 router.delete("/product/:id", (req, res) => { })
 
 /**
@@ -25,7 +34,10 @@ router.get("/update/:id", (req, res) => { });
 
 router.post("/update", (req, res) => { });
 
-router.put("/update/:id", (req, res) => { });
+router.put("/update/:id",
+    body('status').isIn(['IN_PROGRESS', 'LIVE', 'DEPRECATED', 'ARCHIVED']),
+    handlerInputErrors,
+    (req, res) => { });
 
 router.delete("/update/:id", (req, res) => { });
 
